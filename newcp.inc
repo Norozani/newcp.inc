@@ -38,7 +38,7 @@ Blue: Can be used for informational checkpoints or optional actions.
 
 #define MAX_NEW_CPS 20
 
-forward OnPlayerEnterNewCP(playerid, cp);
+forward OnPlayerEnterNewCP(playerid, checkpoint);
 
 new bool:cpNEW[MAX_PLAYERS];
 new cpArea[MAX_PLAYERS];
@@ -48,7 +48,7 @@ stock CountNewCheckPoints()
 {
 	new cps = 0;
 
-	foreach(new i : Player) 
+	foreach (new i : Player) 
 	{
 		if (IsPlayerNPC(i) && cpNEW[i]) 
 		{
@@ -59,9 +59,9 @@ stock CountNewCheckPoints()
 	return cps;
 }
 
-stock CreateNewCP(Float:x, Float:y, Float:z, color = CP_COLOR_GREEN) 
+stock CreateNewCheckpoint(Float:x, Float:y, Float:z, color = CP_COLOR_GREEN) 
 {
-	if(MAX_NEW_CPS == CountNewCheckPoints()) return print("[CreateNewCP]: Checkpoint not created, ERROR: #MAX_NEW_CPS LIMITED."); // Check #DEFINE MAX_NEW_CPS
+	if (MAX_NEW_CPS == CountNewCheckPoints()) return print("[CreateNewCheckpoint]: Checkpoint not created, ERROR: #MAX_NEW_CPS LIMITED."); // Check #DEFINE MAX_NEW_CPS
 
 	new str[58];
 	format(str, sizeof str, "newcp%d%dz", random(1000), random(500));
@@ -73,17 +73,17 @@ stock CreateNewCP(Float:x, Float:y, Float:z, color = CP_COLOR_GREEN)
 	cpArea[npc] = CreateDynamicSphere(x, y, z, 1.3);
 	cpObj[npc] = CreateDynamicObject(19435, x, y, z - 3.5, 0, 90.0, 0);
 
-	if(color == CP_COLOR_GREEN || color == CP_COLOR_BLUE || color == CP_COLOR_RED) 
+	if (color == CP_COLOR_GREEN || color == CP_COLOR_BLUE || color == CP_COLOR_RED) 
 	{
 		SetPlayerAttachedObject(npc, 0, color, 10, -3.0099, -0.0339, 0.0000, 19.2999, 93.4998, -4.7999, 0.0518, 0.0538, 0.0298); // CP attached to the Spine of Mohammad
 	}
 	else 
 	{ 
 		DestroyNewCP(npc);
-		printf("[CreateNewCP]: Checkpoint #%d not create becuase you entered invalid color id.", npc - 998);
+		printf("[CreateNewCheckpoint]: Checkpoint #%d not create becuase you entered invalid color id.", npc - 998);
 	}
 	TogglePlayerControllable(npc, false);
-	SetPlayerColor(npc, (0xFFFFFFFF&0xFFFFFF00));
+	SetPlayerColor(npc, (0xFFFFFFFF & 0xFFFFFF00));
 	return npc;
 }
 
@@ -94,9 +94,9 @@ stock CreateNewCP(Float:x, Float:y, Float:z, color = CP_COLOR_GREEN)
 		public OnPlayerEnterDynamicArea(playerid, areaid)
 	#endif
 	{
-		for(new i = 0; i < sizeof(cpArea); i++) 
+		for (new i = 0; i < sizeof(cpArea); i++) 
 		{
-			if(areaid == cpArea[i]) 
+			if (areaid == cpArea[i]) 
 			{
 				CallRemoteFunction("OnPlayerEnterNewCP", "ii", playerid, i);
 			}
@@ -135,7 +135,7 @@ stock DestroyNewCP(cp)
 
 stock IsValidNewCP(cp) 
 {
-	if(cpNEW[cp]) 
+	if (cpNEW[cp]) 
 		return true;
 	return false;
 }
@@ -144,7 +144,7 @@ stock IsValidNewCP(cp)
 
 how to use?
 
-public OnPlayerEnterNewCP(playerid, cp)
+public OnPlayerEnterNewCP(playerid, checkpoint)
 {
 	return true;
 }
