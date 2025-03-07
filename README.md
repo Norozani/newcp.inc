@@ -1,5 +1,3 @@
-![photo_2025-03-07_08-49-09](https://github.com/user-attachments/assets/88ea4c4f-3a04-4ceb-a8ef-2e3993a206d7)
-
 # -*- newcp.inc -*- 
 
 Created on November 14, 2020/23:53
